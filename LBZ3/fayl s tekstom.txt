@@ -1,0 +1,36 @@
+Programming a graphics processing unit (GPU) seems like a distant world from Java programming. This is understandable, because most of the use cases for Java are not applicable to GPUs. Nonetheless, GPUs offer teraflops of performance, so let’s explore their possibilities.
+
+To make the topic approachable, I’ll spend some time explaining GPU architecture along with a little history, which will make it easier to dive into programming the hardware. Once I’ve shown how the GPU differs from CPU computing, I’ll show how to use GPUs in the Java world. Finally, I will describe the leading frameworks and libraries available for writing Java code and running it on GPUs, and I’ll provide some code samples.
+A Little Background
+
+The GPU was first popularized by Nvidia in 1999. It is a special processor designed to process graphical data before it is transferred to the display. In most cases, it enables some of the computation to be offloaded from the CPU, thus freeing CPU resources while speeding up those offloaded computations. The result is that more input data can be processed and presented at much higher output resolutions, making the visual representation more attractive and the frame rate more fluid.
+
+The nature of 2D/3D processing is mostly matrix manipulation, so it can be handled with a massively parallel approach. What would be an effective approach for image processing? To answer this, let’s compare the architecture of standard CPUs (shown in Figure 1) and GPUs.
+
+Block architecture of a CPU
+
+Figure 1. Block architecture of a CPU
+
+In the CPU, the actual processing elements—the fetchers, the arithmetic logic unit (ALU), and the execution contexts—are just a small part of the whole system. To speed up the irregular calculations arriving in unpredictable order, there are a large, fast, and expensive cache; different kinds of prefetchers; and branch predictors.
+
+You don’t need all of this on a GPU, because the data is received in a predictable manner and the GPU performs a very limited set of operations on the data. Thus, it is possible to make a very small and inexpensive processor with a block architecture similar to that in Figure 2.
+
+Block architecture for a simple GPU core
+
+Figure 2. Block architecture for a simple GPU core
+
+Because these kinds of processors are cheap and they process data in parallel chunks, it’s easy to put many of them to work in parallel. This design is referred to as multiple instruction, multiple data or MIMD (pronounced “mim-dee”).
+
+A second approach focuses on the fact that often a single instruction is applied to multiple data items. This is known as single instruction, multiple data or SIMD (pronounced “sim-dee”). In this design, a single GPU contains multiple ALUs and execution contexts, with a small area dedicated to shared context data, as shown in Figure 3.
+
+Comparing a MIMD-style GPU block architecture (left) with a SIMD design (right)
+
+Figure 3. Comparing a MIMD-style GPU block architecture (left) with a SIMD design (right)
+
+Combining SIMD and MIMD processing provides the maximal processing throughput, which I’ll discuss shortly. In such a design, you have multiple SIMD processors running in parallel, as shown in Figure 4.
+
+Running multiple SIMD processors in parallel; here, 16 cores with 128 total ALUs
+
+Figure 4. Running multiple SIMD processors in parallel; here, 16 cores with 128 total ALUs
+
+Because you have a bunch of small, simple processors, you can program them to gain special effects in the output.
