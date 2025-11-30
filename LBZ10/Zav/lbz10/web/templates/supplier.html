@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>Supplier List</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Company Name</th>
+                <th>Contact Person</th>
+                <th>Phone</th>
+                <th>Account Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for supplier in suppliers %}
+            <tr>
+                <td>{{ supplier.id }}</td>
+                <td>{{ supplier.company_name }}</td>
+                <td>{{ supplier.contact_person }}</td>
+                <td>{{ supplier.phone }}</td>
+                <td>{{ supplier.account_number }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

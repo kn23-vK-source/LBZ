@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>Delivery List</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Delivery Date</th>
+                <th>Supplier</th>
+                <th>Material</th>
+                <th>Delivery Days</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for delivery in deliveries %}
+            <tr>
+                <td>{{ delivery.id }}</td>
+                <td>{{ delivery.delivery_date }}</td>
+                <td>{{ delivery.supplier.company_name }}</td>
+                <td>{{ delivery.material.material_name }}</td>
+                <td>{{ delivery.delivery_days }}</td>
+                <td>{{ delivery.quantity }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
